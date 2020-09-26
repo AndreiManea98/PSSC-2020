@@ -1,0 +1,19 @@
+Stack Overflow este o platforma publica utilizata de foarte multi programatori, de persoane care isi doresc sa invete sa programeze , sa isi
+impartaseasca cunostintele sau sa primeasca raspunsuri atunci cand au nelamuriri sau intampina probleme cand scriu cod.
+
+In primul rand , pentru a folosi functionalitatile platformei utilizatorii trebuie sa se conecteze cu un cont pe care si-l pot crea
+usor din sectiunea de Sign up. Utilizatorii pot sa se conecteze si folosind conturile personale de Google , GitHub sau Facebook , 
+inregistrarea nefiind obligatorie.
+
+Platforma are urmatoarele functionalitati:
+
+- utilizatorii pot posta intrebari atunci cand intampina probleme pe care nu stiu sa le rezolve sau atunci cand au anumite curiozitati 
+- utilizatorii pot posta raspunsuri la intrebarile existente pe platforma, pot vota raspunsurile pe care le considera corecte, pot adauga
+comentarii si chiar edita raspunsurile, pot sa adauge tag-uri 
+- se pot cauta rapid intrebari folosind search bar sau folosind optiunea de filtrare unde se pot alege mai multe optiuni precum : cele mai 
+votate intrebari , cele mai noi , folosind tag-urile , etc.
+- utilizatorii pot sa foloseasca platforma si in cadrul firmei in care lucreaza pentru a purta discutii private legate de problemele
+pe care le-au intampinat in cadrul proiectelor, accesand optiunea de Stack Overflow for Teams  
+- se pot cauta job-uri din sectiunea de Job din cadrul platformei , sectiune in care utilizatorii pot aplica la diferitele posturi pe care
+diverse firme le au disponibile . Utilizatorii pot cauta usor job-uri disponibile folosind search bar-ul sau optiunile de filtrare de pe 
+platforma precum : selectarea limbajelor de programare pe care le prefera / nu le prefera, dupa salariul minim anual , background (experienta)                                      
