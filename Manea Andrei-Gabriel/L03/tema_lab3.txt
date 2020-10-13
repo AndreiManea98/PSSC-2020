@@ -1,0 +1,32 @@
+● Bounded context: “Question context’
+	○ Workflow: “Post a question”
+	   ■ Triggered by: “Post a question request received”
+           ■ Input: “Question form” (Display title, body, tags)
+           ■ Other inputs(dependencies)
+           ■ Output: “New question accepted” event
+           ■ Side effects: Confirmation email sent to the user
+
+● Workflow: “Post a question”
+   ○ Input: “Question form”
+   ○ Output: “New question accepted” event or Invalid question form
+//step1
+    Do validate question form
+    If form is invalid then
+         stop
+//step2
+    Send confirmation email 
+//step3
+    return ”New question accepted” event
+
+● Substep “Validate question form”
+   ○ input: “Unvalidated question form”
+   ○ output: “Validated question form” or "Validation error"
+   ○ dependencies: Title validator, Body validator, Tags validator
+
+● validate the title
+● validate the body
+● validate the tags
+● If all validations passed then
+	 ■ return validated question form
+● Else 
+	 ■ return Validation error
