@@ -8,7 +8,7 @@ namespace Test.App
 {
     class ProgramQuestion
     {
-        static void Main2(string[] args)
+        static void Main(string[] args)
         {
             List<string> tags = new List<string> {"React", "JavaScript"};
             var cmd = new PostQuestionCmd("What are Components?", "Can somebody explain me how Components work in React", tags);
