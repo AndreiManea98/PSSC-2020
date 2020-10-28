@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using static Question.Domain.PostQuestionWorkflow.Question;
+
+namespace Question.Domain.PostQuestionWorkflow
+{
+    public class VoteService
+    {
+        public Task Vote(VerifiedQuestion question)
+        {
+            return Task.CompletedTask;
+        }
+    }
+}
