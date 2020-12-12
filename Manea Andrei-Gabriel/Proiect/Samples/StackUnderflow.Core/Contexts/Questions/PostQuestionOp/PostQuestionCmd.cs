@@ -12,14 +12,17 @@ namespace StackUnderflow.Domain.Core.Contexts.Questions.PostQuestionOp
 
         }
 
-        public PostQuestionCmd(string title, string body, List<string> tags, int votes)
+        public PostQuestionCmd(int questionId, string title, string body, List<string> tags, int votes)
         {
+            QuestionId = questionId;
             Title = title;
             Body = body;
             Tags = tags;
             Votes = votes;
         }
 
+        [Required]
+        public int QuestionId { get; set; }
         [Required]
         public string Title { get; set; }
         [Required]
