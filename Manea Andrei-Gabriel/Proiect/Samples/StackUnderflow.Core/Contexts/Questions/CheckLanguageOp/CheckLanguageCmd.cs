@@ -12,11 +12,14 @@ namespace StackUnderflow.Domain.Schema.Questions.CheckLanguageOp
 
         }
 
-        public CheckLanguageCmd(string text)
+        public CheckLanguageCmd(int replyId, string text)
         {
+            replyId = ReplyId;
             Text = text;
         }
 
+        [Required]
+        public int ReplyId { get; set; }
         [Required]
         public string Text { get; }
     }

@@ -1,8 +1,10 @@
 ﻿using Access.Primitives.Extensions.ObjectExtensions;
 using Access.Primitives.IO;
+using StackUnderflow.DatabaseModel.Models;
 using StackUnderflow.Domain.Schema.Questions.CheckLanguageOp;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static StackUnderflow.Domain.Schema.Questions.CheckLanguageOp.CheckLanguageResult;
@@ -29,14 +31,17 @@ namespace StackUnderflow.Domain.Core.Contexts.Questions.CheckLanguageOp
             return result;
         }
 
-        private ICheckLanguageResult VerifyLanguage(QuestionsWriteContext state, object v)
+        private ICheckLanguageResult VerifyLanguage(QuestionsWriteContext state, CheckLanguageCmd v)
         {
-            return new ValidationSucceeded("The language was validated");
+            if (state.Replies.Any(p => p.ReplyId.Equals(v.ReplyId)) && v.Text.Length() < 10 && v.Text.Length() > 500)
+               return new ValidationFailed("The reply is not valid!");
+            else
+               return new ValidationSucceeded(v.ReplyId, "For the reply with the id " + v.ReplyId + " the language was validated");
         }
 
-        private object VerifyAnswerFromCmd(CheckLanguageCmd cmd)
+        private CheckLanguageCmd VerifyAnswerFromCmd(CheckLanguageCmd cmd)
         {
-            return new { };
+            return cmd;
         }
     }
 }

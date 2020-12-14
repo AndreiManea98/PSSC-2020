@@ -12,11 +12,12 @@ namespace StackUnderflow.Domain.Schema.Questions.CheckLanguageOp
 
         public class ValidationSucceeded : ICheckLanguageResult
         {
-            public ValidationSucceeded(string text)
+            public ValidationSucceeded(int replyId,string text)
             {
+                ReplyId = replyId;
                 Text = text;
             }
-
+            public int ReplyId { get; set; }
             public string Text { get; }
         }
 
