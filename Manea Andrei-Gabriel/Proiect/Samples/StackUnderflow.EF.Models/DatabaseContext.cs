@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using StackUnderflow.DatabaseModel.Models;
+using StackUnderflow.EF.Models;
 
 namespace StackUnderflow.EF
 {
@@ -19,5 +20,6 @@ namespace StackUnderflow.EF
         }
 
         public DbSet<Reply> Replies { get; set; }
+        public DbSet<Post> Questions { get; set; }
     }
 }

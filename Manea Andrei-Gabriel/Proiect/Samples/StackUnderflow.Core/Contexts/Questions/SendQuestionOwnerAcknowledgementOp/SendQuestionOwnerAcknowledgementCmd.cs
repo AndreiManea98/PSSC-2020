@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace StackUnderflow.Domain.Schema.Questions.SendQuestionOwnerAcknowledgementOp
+namespace StackUnderflow.Domain.Core.Contexts.Questions.SendQuestionOwnerAcknowledgementOp
 {
     public class SendQuestionOwnerAcknowledgementCmd
     {

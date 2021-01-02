@@ -7,16 +7,15 @@ using Access.Primitives.IO;
 using Microsoft.AspNetCore.Mvc;
 using StackUnderflow.Domain.Core;
 using StackUnderflow.Domain.Core.Contexts;
-using StackUnderflow.Domain.Schema.Backoffice.CreateTenantOp;
 using StackUnderflow.EF.Models;
 using Access.Primitives.EFCore;
-using StackUnderflow.Domain.Schema.Backoffice.InviteTenantAdminOp;
 using StackUnderflow.Domain.Schema.Backoffice;
 using LanguageExt;
-using StackUnderflow.Domain.Schema.Questions.CreateAnswerOp;
 using StackUnderflow.Domain.Core.Contexts.Questions;
 using StackUnderflow.EF;
 using Microsoft.EntityFrameworkCore;
+using StackUnderflow.Domain.Core.Contexts.Questions.PostQuestionOp;
+using StackUnderflow.Domain.Core.Contexts.Questions.CreateReplyOp;
 
 namespace StackUnderflow.API.Rest.Controllers
 {
@@ -33,6 +32,36 @@ namespace StackUnderflow.API.Rest.Controllers
             _dbContext = dbContext;
         }
 
+        [HttpPost("postQuestion")]
+        public async Task<IActionResult> PostQuestion([FromBody] PostQuestionCmd cmd)
+        {
+            var dep = new QuestionsDependencies();
+            var questions = await _dbContext.Questions.ToListAsync();
+            var ctx = new QuestionsWriteContext(questions);
+
+            var expr = from postQuestionsResult in QuestionsContext.PostQuestion(cmd)
+                       select postQuestionsResult;
+
+            var r = await _interpreter.Interpret(expr, ctx, dep);
+
+            _dbContext.Questions.Add(new DatabaseModel.Models.Post { PostId = cmd.QuestionId, Title = cmd.Title, PostText = cmd.Body, PostedBy = new Guid("f505c32f-3573-4459-8112-af8276d3e919")});
+            //var reply = await _dbContext.Replies.Where(r => r.ReplyId == 4).SingleOrDefaultAsync();
+            //reply.Body = "Text updated";
+            //_dbContext.Replies.Update(reply);
+            await _dbContext.SaveChangesAsync();
+
+
+            return r.Match(
+                 succ => (IActionResult)Ok(succ.QuestionId),
+                 fail => BadRequest("Question could not be added"),
+                 invalid => BadRequest("Invalid Question")
+                 );
+        }
+
+
+
+
+
         [HttpPost("createReply")]
         public async Task<IActionResult> CreateReply([FromBody] CreateReplyCmd cmd)
         {
@@ -40,8 +69,8 @@ namespace StackUnderflow.API.Rest.Controllers
             var replies = await _dbContext.Replies.ToListAsync();
             var ctx = new QuestionsWriteContext(replies);
 
-            var expr = from createTenantResult in QuestionsContext.CreateReply(cmd)
-                       select createTenantResult;
+            var expr = from createReplyResult in QuestionsContext.CreateReply(cmd)
+                       select createReplyResult;
 
             var r = await _interpreter.Interpret(expr, ctx, dep);
 
