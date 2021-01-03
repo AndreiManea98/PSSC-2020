@@ -16,6 +16,10 @@ using StackUnderflow.EF;
 using Microsoft.EntityFrameworkCore;
 using StackUnderflow.Domain.Core.Contexts.Questions.PostQuestionOp;
 using StackUnderflow.Domain.Core.Contexts.Questions.CreateReplyOp;
+using Orleans;
+using static StackUnderflow.Domain.Core.Contexts.Questions.SendQuestionOwnerAcknowledgementOp.SendQuestionOwnerAcknowledgementResult;
+using StackUnderflow.Domain.Core.Contexts.Questions.SendQuestionOwnerAcknowledgementOp;
+using GrainInterfaces;
 
 namespace StackUnderflow.API.Rest.Controllers
 {
@@ -25,21 +29,25 @@ namespace StackUnderflow.API.Rest.Controllers
     {
         private readonly IInterpreterAsync _interpreter;
         private readonly DatabaseContext _dbContext;
+        private readonly IClusterClient _client;
 
-        public QuestionsController(IInterpreterAsync interpreter, DatabaseContext dbContext)
+        public QuestionsController(IInterpreterAsync interpreter, DatabaseContext dbContext, IClusterClient client)
         {
             _interpreter = interpreter;
             _dbContext = dbContext;
+            _client = client;
         }
 
         [HttpPost("postQuestion")]
         public async Task<IActionResult> PostQuestion([FromBody] PostQuestionCmd cmd)
         {
             var dep = new QuestionsDependencies();
+            dep.SendInvitationEmail = SendEmail;
             var questions = await _dbContext.Questions.ToListAsync();
             var ctx = new QuestionsWriteContext(questions);
 
             var expr = from postQuestionsResult in QuestionsContext.PostQuestion(cmd)
+                       from sendOwnerAck in QuestionsContext.SendQuestionOwnerAcknowledgement(new SendQuestionOwnerAcknowledgementCmd(new Guid("f505c32f-3573-4459-8112-af8276d3e919"),"exemplu@gmail.com"))
                        select postQuestionsResult;
 
             var r = await _interpreter.Interpret(expr, ctx, dep);
@@ -56,7 +64,19 @@ namespace StackUnderflow.API.Rest.Controllers
                  fail => BadRequest("Question could not be added"),
                  invalid => BadRequest("Invalid Question")
                  );
+
+
         }
+
+        private TryAsync<AcknowledgementSent> SendEmail(InvitationLetter letter)
+        => async () =>
+        {
+            var emailSender = _client.GetGrain<IEmailSender>(0);
+            await emailSender.SendEmailAsync(letter.Letter);
+            return new AcknowledgementSent(1,Guid.NewGuid(),letter);
+        };
+
+
 
 
 

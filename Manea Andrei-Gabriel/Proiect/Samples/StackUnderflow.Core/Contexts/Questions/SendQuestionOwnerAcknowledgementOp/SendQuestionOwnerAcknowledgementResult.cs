@@ -12,14 +12,16 @@ namespace StackUnderflow.Domain.Core.Contexts.Questions.SendQuestionOwnerAcknowl
 
         public class AcknowledgementSent : ISendQuestionOwnerAcknowledgementResult
         {
-            public AcknowledgementSent(int questionId, int questionOwnerId)
+            public AcknowledgementSent(int questionId, Guid questionOwnerId, InvitationLetter letter)
             {
                 QuestionId = questionId;
                 QuestionOwnerId = questionOwnerId;
+                Letter = letter;
             }
 
+            public InvitationLetter Letter { get; set; }
             public int QuestionId { get; }
-            public int QuestionOwnerId { get; }
+            public Guid QuestionOwnerId { get; }
         }
 
         public class AcknowledgementNotSent : ISendQuestionOwnerAcknowledgementResult
